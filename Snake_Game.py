@@ -4,188 +4,201 @@ import random
 
 delay = 0.1
 
-# Score
-score=0
-high_score=0
+# create score
+score = 0
+high_score = 0
+
 
 # set up the screen
-wn=turtle.Screen()
-wn.bgcolor("black")
-# wn.bgpic("snakebg2.gif")
-wn.setup(width=600, height=600)
-wn.tracer(0)
+screen = turtle.Screen()
+screen.bgcolor("black")
+# screen.bgpic("snakebg2.gif")
+screen.setup(width=600, height=600)
+screen.tracer(0)
+
 # Snake head
-head=turtle.Turtle()
+head = turtle.Turtle()
 head.speed(0)
 head.left(90)
 head.shape("triangle")
 head.color("white")
 head.penup()
-head.goto(0,0)
-head.direction="stop"
+head.goto(0, 0)
+head.direction = "stop"
 
-# Snake food
-food=turtle.Turtle()
-food.speed(0)
-food.shape("circle")
-food.color("red")
-food.penup()
-food.goto(0,100)
+#  Creating Snake food as eluka
+eluka = turtle.Turtle()
+eluka.speed(0)
+eluka.shape("circle")
+eluka.color("red")
+eluka.penup()
+eluka.goto(0, 100)
 
-segments=[]
+parts = []
 
-# Pen
-pen=turtle.Turtle()
-pen.speed(0)
-pen.shape("triangle")
-pen.color("white")
-pen.penup()
-pen.hideturtle()
-pen.goto(0,260)
-pen.write("Snake game by @thatsmokshanirugutti		",align="right", font=("Courier", 5, "normal"))
-pen.write("Score: 0 High Score: 0", align="left", font=("Courier", 8, "normal"))
+# creating a board for displaying score and highscore
+score_board = turtle.Turtle()
+score_board.speed(0)
+score_board.color("white")
+score_board.penup()
+score_board.hideturtle()
+score_board.goto(50,250)
+score_board.write('Score: 0  High Score: 0', align="left", font=("arial", 10, "normal"))
 
-# Functions
-def go_up():
-    if head.direction != "down":
-        head.direction="up"
+# create a title board to display title
+title_board = turtle.Turtle()
 
-def go_down():
-    if head.direction != "up":
-        head.direction="down"
+title_board.speed(0)
 
-def go_left():
-    if head.direction != "right":
-        head.direction="left"
+title_board.color("white")
 
-def go_right():
-    if head.direction != "left":
-        head.direction="right"
+title_board.penup()
+
+title_board.hideturtle()
+
+title_board.goto(-200,250)
+
+title_board.write('Snake Game', align="right", font=("arial", 10, "normal"))
+
+def upside():
+	    if head.direction != "down":
+	    	head.direction = "up"
+
+    
+def downside():
+	if head.direction != "up":
+		head.direction = "down"
+
+               
+def left():
+	 	if head.direction != "right":
+	 		head.direction = "left"
+
+        
+
+def right():
+		if head.direction != "left":
+			head.direction = "right"
+
+
+# move functions
 def move():
     if head.direction == "up":
-        y=head.ycor()
+        y = head.ycor()
         head.setheading(90)
         head.sety(y+20)
-
+        
     if head.direction == "down":
-        y=head.ycor()
-        head.setheading(270)
-        head.sety(y-20)
 
+        y = head.ycor()
+
+        head.setheading(270)
+
+        head.sety(y-20)
+        
     if head.direction == "left":
-        x=head.xcor()
+        x = head.xcor()
         head.setheading(180)
         head.setx(x-20)
 
     if head.direction == "right":
-        x=head.xcor()
+        x = head.xcor()
         head.setheading(0)
         head.setx(x+20)
 
 # keyboard bindings
-wn.listen()
-wn.onkeypress(go_up,"Up")
-wn.onkeypress(go_down,"Down")
-wn.onkeypress(go_left,"Left")
-wn.onkeypress(go_right,"Right")
+screen.listen()
+screen.onkeypress(upside, "Up")
+screen.onkeypress(left, "Left")
+screen.onkeypress(right, "Right")
+screen.onkeypress(downside,"Down")
 
 # Main game loop
 while True:
-    wn.update()
+    screen.update()
 
     # Check for a collision with the border
-    if head.xcor()>500 or head.xcor()<-500 or head.ycor()>300 or head.ycor()<-300:
+    if head.xcor() > 500 or head.xcor() < -500 or head.ycor() > 300 or head.ycor() < -300:
         time.sleep(1)
-        head.goto(0,0)
-        head.direction="stop"
+        head.goto(0, 0)
+        head.direction = "stop"
 
-        # Hide the segments
-        for segment in segments:
-            segment.goto(1000,1000)
+        # Hide the parts
+        for part in parts:
+            part.goto(1000, 1000)
 
-        # Clear the segments list
-        segments.clear()
-
-        # Reset the score
-        score=0
-
+        # Clear the parts list
+        parts.clear()
+        # reset score
+        score = 0
         # Reset the delay
         delay = 0.1
-
-        pen.clear()
-        pen.write("Snake game by @thatsmokshanirugutti		",align="right", font=("Courier", 5, "normal"))
-        pen.write("Score: {}  High Score: {}".format(score, high_score), align="left", font=("Courier", 8, "normal"))
-
+        
+        score_board.clear()
+        score_board.write('Score: {}  High Score: {}'.format(score, high_score), align="left", font=("arial", 10, "normal"))        
 
 
-    #Check for a collision with the food
+    #Check for a collision with the eluka
 
-    if head.distance(food)<20:
-        # move the food to a random spot
-        x=random.randint(-285,285)
-        y=random.randint(-285,285)
-        food.goto(x,y)
+    if head.distance(eluka)<20:
+        # move the eluka to a random spot
+        x = random.randint(-285, 285)
+        y = random.randint(-285, 285)
+        eluka.goto(x, y)
 
-        # Add a segment
-        new_segment=turtle.Turtle()
-        new_segment.speed(0)
-        new_segment.shape("square")
-        new_segment.color("grey")
-        new_segment.penup()
-        segments.append(new_segment)
+        # Adding new body parts
+        new_part = turtle.Turtle()
+        new_part.speed(0)
+        new_part.shape("square")
+        new_part.color("grey")
+        new_part.penup()
+        parts.append(new_part)
 
         # Shorten the delay
         delay -= 0.001
-
-        # Increase the score
-        score+=10
-
+        
+        # increasing score
+        score +=5
+        
         if score > high_score:
-            high_score = score
-
-        pen.clear()
-        pen.write("Snake game by @thatsmokshanirugutti		",align="right", font=("Courier", 5, "normal"))
-        pen.write("Score: {}  High Score: {}".format(score,high_score),align="left",font=("Courier", 8, "normal"))
-
-    # Move the end segment first in reverse order
-    for index in range(len(segments)-1,0,-1):
-        x=segments[index-1].xcor()
-        y=segments[index-1].ycor()
-        segments[index].goto(x,y)
-
-    # Move segment 0 to where the head is
-    if len(segments)>0:
-        x=head.xcor()
-        y=head.ycor()
-        segments[0].goto(x,y)
+        	high_score = score
+        score_board.clear()
+        score_board.write('Score: {}  High Score: {}'.format(score, high_score), align="left", font=("arial", 10, "normal"))
+    # Move the end part first in reverse order
+    for index in range(len(parts)-1, 0, -1):
+        x = parts[index-1].xcor()
+        y = parts[index-1].ycor()
+        parts[index].goto(x, y)
+    # Move part 0 to where the head is
+    if len(parts) > 0:
+        x = head.xcor()
+        y = head.ycor()
+        parts[0].goto(x, y)
 
     move()
-
-    # Check for head collision with the body segments
-    for segment in segments:
-        if segment.distance(head)<20:
-            time.sleep(1)
-            head.goto(0,0)
-            head.direction="stop"
-
-            # Hide the segments
-            for segment in segments:
-                segment.goto(1000,1000)
-
-            # Clear the segments list
-            segments.clear()
-
-            # Reset the score
-            score = 0
-
-            #Reset the delay
-            delay = 0.1
-
-            pen.clear()
-            pen.write("Snake game by @thatsmokshanirugutti		",align="right", font=("Courier", 5, "normal"))
-            pen.write("Score: {}  High Score: {}".format(score, high_score), align="left",font=("Courier", 8, "normal"))
-
-
+    # we wil check for head collisons with body part
+    for part in parts:
+    	if part.distance(head) < 20:
+    		time.sleep(1)
+    		head.goto(0, 0)
+    		head.direction = "stop"
+    		
+    		# hide body parts
+    		for part in parts:
+    			part.goto(1000, 1000)
+    			
+    		# clear parts of list
+    		parts.clear()
+    		
+    		# reset the score
+    		score =0
+    		
+    		# score reset kavadaniki koncham delay
+    		delay = 0.1
+    		score_board.clear()
+    		score_board.write('Score: {}  High Score: {}'.format(score, high_score), align="left", font=("arial", 10, "normal"))
+    		
+    
     time.sleep(delay)
 
-wn.mainloop()
+screen.mainloop()
